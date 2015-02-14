@@ -1,0 +1,17 @@
+name = Apachesolr Location Range
+description = Add Location Range input form facet with google places autocomplete
+package = Propeople
+core = 7.x
+version = 7.x-1.0
+
+dependencies[] = apachesolr
+dependencies[] = apachesolr_search
+dependencies[] = facetapi
+dependencies[] = getlocation
+dependencies[] = getlocations_search
+dependencies[] = gmap
+dependencies[] = location
+dependencies[] = location_gmap_find_address
+
+files[] = plugins/facetapi/apachesolr_facetapi_location.inc
+files[] = plugins/facetapi/apachesolr_range_geo.inc
