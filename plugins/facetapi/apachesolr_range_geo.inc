@@ -31,11 +31,16 @@ class ApacheSolrFacetapiRangeGeo extends FacetapiQueryType implements FacetapiQu
             list($lat, $lon, $distance) = explode(',', key($active_items));
             if ($lat && $lon && $distance) {
                 //Alter apachesolr query.
-                $query->addParam('fq', '{!geofilt}');
-                $query->addParam('sfield', $this->facet['field']);
-                $query->addParam('pt', $lat . ',' . $lon);
-                $query->addParam('d', $distance);
-                $query->addParam('sort', 'geodist() asc');
+                try {
+                    $query->addParam('fq', '{!geofilt}');
+                    $query->addParam('sfield', $this->facet['field']);
+                    $query->addParam('pt', $lat . ',' . $lon);
+                    $query->addParam('d', $distance);
+                    $query->addParam('sort', 'geodist() asc');
+                } catch (Exception $e) {
+                    watchdog('Apache Solr', nl2br(check_plain($e->getMessage())), NULL, WATCHDOG_ERROR);
+                    drupal_set_message(nl2br(check_plain($e->getMessage())), "warning");
+                }
             }
         }
     }

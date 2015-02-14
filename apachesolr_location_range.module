@@ -124,7 +124,12 @@ function apachesolr_location_range_facetapi_query_types() {
  * @param DrupalSolrQueryInterface $query
  */
 function apachesolr_location_range_apachesolr_query_alter(DrupalSolrQueryInterface $query) {
-    $query->addParam('fl', 'locs_field_location');
+    try {
+        $query->addParam('fl', 'locs_field_location');
+    } catch (Exception $e) {
+        watchdog('Apache Solr', nl2br(check_plain($e->getMessage())), NULL, WATCHDOG_ERROR);
+        drupal_set_message(nl2br(check_plain($e->getMessage())), "warning");
+    }
 }
 
 /**
